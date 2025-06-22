@@ -38,9 +38,17 @@ def agregar_usuario(nombre):
 def agregar_libro(titulo, autor):
         libros.append({"titulo": titulo, "autor": autor, "disponible": True})
 
-        
+def eliminar_libro(titulo):
+    global libros
+    for libro in libros:
+        if libro["titulo"] == titulo:
+            archivados.append(libro) 
+            libros.remove(libro)     
+            return
+    print("Se elimino el libro")
+
+
 agregar_libro("La metamorfosis","Franz Kafka")
-mostrar_catalogo()
 
 '''menu'''
 
