@@ -35,3 +35,68 @@ def agregar_usuario(nombre):
                 usuarios.append(nombre)
                 historial.append(f"{nombre} se registro como usuario")
                 
+def agregar_libro(titulo, autor):
+        libros.append({"titulo": titulo, "autor": autor, "disponible": True})
+
+        
+agregar_libro("La metamorfosis","Franz Kafka")
+mostrar_catalogo()
+
+'''menu'''
+
+while True:
+
+    print(f"\n Elige una opcion.")
+    print("1. Mostrar catalogo") 
+    '''
+    print("2. Contar equipos que ganaron en semifinales (SFI)")
+    print("3. Contar partidos en cuartos de final (QFI) con más de 2 goles")
+    print("4. Agregar más códigos")
+    print("5. Ver códigos")
+    print("6. Borrar todos los códigos")
+    '''
+    opcion = input("Elige una opción del 1 al 6. ")
+    if opcion == "1":
+        
+            print(f"\n {mostrar_catalogo()}")
+
+    '''elif opcion == "2":
+        
+        total_sfi = ganadores_semifinal(lista_codigos)
+        print(f"Equipos que ganaron en semifinales: {total_sfi}")
+        
+
+
+    elif opcion == "3":
+        
+        total_cuartos_2goles = contar_part_goles_cuartos(lista_codigos)
+        print(f"Partidos en cuartos de final con más de 2 goles: {total_cuartos_2goles}")
+    
+
+    elif opcion == "4":
+        
+        while True:
+            nuevo = input("  Ingresa el código a agregar ")
+            if not nuevo:
+                break
+            lista_codigos.append(nuevo)
+            print("codigo agregado.")
+            
+    elif opcion == "5":
+
+        if lista_codigos:
+            print("Códigos actuales:")
+            for i, codigo in enumerate(lista_codigos, start=1):
+                print(f"  {i}. {codigo}")
+        else:
+            print("La lista esta vacía.")
+            
+    elif opcion == "6":
+        
+        lista_codigos.clear()
+        print("Todos los códigos han sido borrados.")
+        
+    else:
+        print("Elige una opcion valida")
+        break'''
+
