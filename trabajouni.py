@@ -1,5 +1,8 @@
 
 
+from sympy import true
+
+
 libros = [
     {"titulo": "Cien años de soledad", "autor": "Gabriel García Márquez", "disponible": True}]   
 
@@ -45,8 +48,14 @@ def eliminar_libro(titulo):
             archivados.append(libro) 
             libros.remove(libro)     
             return
-    print("Se elimino el libro")
+    #print("Se elimino el libro")
 
+def devolver_libro(titulo):
+    for libro in libros:
+        if libro[titulo] == titulo:
+            libro["disponible"] = true
+            return
+        
 
 agregar_libro("La metamorfosis","Franz Kafka")
 
