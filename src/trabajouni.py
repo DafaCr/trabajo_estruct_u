@@ -76,13 +76,6 @@ prestamos = [
     {"usuario": 3, "libro": 1, "fecha_inicio": "10-05-2025", "fecha_fin": "24-05-2025"},
     {"usuario": 6, "libro": 9, "fecha_inicio": "15-05-2025", "fecha_fin": "29-05-2025"},
     {"usuario": 9, "libro": 22, "fecha_inicio": "20-05-2025", "fecha_fin": "03-06-2025"},
-    {"usuario": 5, "libro": 36, "fecha_inicio": "25-05-2025", "fecha_fin": "08-06-2025"},
-    {"usuario": 7, "libro": 13, "fecha_inicio": "01-06-2025", "fecha_fin": "15-06-2025"},
-    {"usuario": 10, "libro": 17, "fecha_inicio": "03-06-2025", "fecha_fin": "17-06-2025"},
-    {"usuario": 1, "libro": 30, "fecha_inicio": "05-06-2025", "fecha_fin": "19-06-2025"},
-    {"usuario": 8, "libro": 19, "fecha_inicio": "07-06-2025", "fecha_fin": "21-06-2025"},
-    {"usuario": 2, "libro": 45, "fecha_inicio": "09-06-2025", "fecha_fin": "23-06-2025"},
-    {"usuario": 4, "libro": 11, "fecha_inicio": "11-06-2025", "fecha_fin": "25-06-2025"},
     {"usuario": 6, "libro": 4, "fecha_inicio": "05-05-2025", "fecha_fin": "19-05-2025"},
     {"usuario": 2, "libro": 4, "fecha_inicio": "20-05-2025", "fecha_fin": "03-06-2025"},
     {"usuario": 7, "libro": 4, "fecha_inicio": "04-06-2025", "fecha_fin": "18-06-2025"},
@@ -219,51 +212,39 @@ def devolver_libro():
 def intercambio(lista, i, j):
     lista[i], lista[j] = lista[j], lista[i]
 
+def libros_mas_prestados():
+    conteo = {}
+
+    for prestamo in prestamos:
+        id_libro = prestamo["libro"]
+        # Buscar título a partir del id
+        titulo = next((libro["titulo"] for libro in libros if libro["id"] == id_libro), None)
+
+        if titulo:
+            if titulo in conteo:
+                conteo[titulo] += 1
+            else:
+                conteo[titulo] = 1
+
+    # Convertir a lista de tuplas
+    lista_conteo = list(conteo.items())
+
+    # Ordenar de mayor a menor con ordenamiento por inserción
+    ordenamientoInsercion(lista_conteo)
+
+    headers = ["Título del Libro", "Cantidad de Préstamos"]
+    print("\n📚 Libros más prestados:\n")
+    print(tabulate(lista_conteo, headers=headers))
+
 def ordenamientoInsercion(lista):
     for i in range(1, len(lista)):
         pos = i
-        while pos > 0 and lista[pos][1] > lista[pos - 1][1]:  # mayor a menor
+        while pos > 0 and lista[pos][1] > lista[pos - 1][1]:
             intercambio(lista, pos, pos - 1)
             pos -= 1
 
-def libros_mas_prestados():
-    conteo = {}
-    for entrada in historial:
-        if "presto el libro '" in entrada:
-            partes = entrada.split("presto el libro '") 
-            if len(partes) > 1:
-                titulo = partes[1].split("'")[0]
-                if titulo in conteo:
-                    conteo[titulo] += 1
-                else:
-                    conteo[titulo] = 1
-
-    # Convertir el diccionario en lista de tuplas
-    lista_conteo = list(conteo.items())
-
-    # Ordenar la lista de tuplas
-    ordenamientoInsercion(lista_conteo)
-
-    print(" Libros más prestados:")
-    for titulo, cantidad in lista_conteo:
-        print(f"- '{titulo}' fue prestado {cantidad} veces")
-
-def libros_mas_prestados():
-    conteo = {}
-    for prestamo in prestamos:
-        libro_id = prestamo["libro"]
-        if libro_id in conteo:
-            conteo[libro_id] += 1
-        else:
-            conteo[libro_id] = 1
-
-    lista_conteo = sorted(conteo.items(), key=lambda x: x[1], reverse=True)
-
-    print("📚 Libros más prestados:")
-    for libro_id, cantidad in lista_conteo:
-        titulo = next((libro["titulo"] for libro in libros if libro["id"] == libro_id), "Desconocido")
-        print(f"- '{titulo}' fue prestado {cantidad} veces")
-
+def intercambio(lista, i, j):
+    lista[i], lista[j] = lista[j], lista[i]
 
 def mostrar_historial():
     print("Historial de Actividades:")
