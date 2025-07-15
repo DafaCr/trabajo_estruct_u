@@ -1,5 +1,4 @@
 from queue import LifoQueue
-from sympy import true
 from consolemenu import *
 from consolemenu.items import *
 from datetime import *
@@ -104,6 +103,7 @@ subtitle = "Buscando desde la sede " + sedeActual
 menu = ConsoleMenu("Biblioteca Zeus", subtitle)
 
 def mostrar_catalogo():
+    print("\nCatálogo de libros disponibles en la sede " + sedeActual + ":\n")
     tabla = []
     for libro in libros:
         estado = "Disponible" if libro["disponible"] else "Prestado"
@@ -113,6 +113,7 @@ def mostrar_catalogo():
 
     encabezados = ["ID", "Título", "Autor", "Estado"]
     print(tabulate(tabla, headers=encabezados))
+    input("\nPresiona Enter para continuar...")
 
 def prestar_libro(titulo):
     usuario = input('Usuario: ')
@@ -129,6 +130,7 @@ def prestar_libro(titulo):
                 prestamos.append({"usuario": usuario, "libro": titulo, "fecha_inicio": fecha_hoy_str, "fecha_fin": fecha_dos_semanas_str})
                 historial.append(f"{usuario} presto el libro '{titulo}' el {fecha_hoy_str}. Fecha de devolución: {fecha_dos_semanas_str}")
                 print(historial[-1])
+                input("\nPresiona Enter para continuar...")
                 return
             elif libro["sede"] != sedeActual:
                 print("Este es un préstamo intersedes, la fecha de inicio es el lunes próximo")
@@ -142,10 +144,12 @@ def prestar_libro(titulo):
                 prestamos.append({"usuario": usuario, "libro": titulo, "fecha_inicio": prox_lunes, "fecha_fin": fecha_dos_sem_desde_lunes_str})
                 historial.append(f"{usuario} solicitó préstamo intersedes del libro '{titulo}' el {fecha_hoy_str}. Fecha de devolución: {fecha_dos_sem_desde_lunes_str}")
                 print(historial[-1])
+                input("\nPresiona Enter para continuar...")
                 return
     
     if existe == False:
         print("Ese libro no está disponible")
+        input("\nPresiona Enter para continuar...")
         
 def prestar_libro_outer():
     titulo = input('Título: ')
@@ -178,6 +182,7 @@ def buscar_libro():
         print(tabulate(resultados, headers=["Título", "Autor", "Sede"], tablefmt="fancy_grid"))
     else:
         print("\nNo hay copias disponibles de '" + texto + "'.")
+    input("\nPresiona Enter para continuar...")
 
 def eliminar_libro():
     titulo = input('Título: ')
@@ -190,23 +195,27 @@ def eliminar_libro():
             libros.remove(libro)
             historial.append(f"se archivó el libro '{titulo}'")
             print(historial[-1])
+            input("\nPresiona Enter para continuar...")
             return
         elif libro["titulo"] == titulo and libro["disponible"] == False:
             existe = True
             print("Este libro no se puede archivar porque está en un préstamo activo.")
+            input("\nPresiona Enter para continuar...")
             return
     
     if existe == False:
         print("Este libro no existe.")
+        input("\nPresiona Enter para continuar...")
 
 def devolver_libro():
     titulo = input('Título: ')
     usuario = input('Usuario: ')
     for libro in libros:
         if libro["titulo"] == titulo:
-            libro["disponible"] = true
+            libro["disponible"] = True
             historial.append(f"{usuario} devolvió el libro '{titulo}'")
             print(historial[-1])
+            input("\nPresiona Enter para continuar...")
             return
 
 def intercambio(lista, i, j):
@@ -217,7 +226,6 @@ def libros_mas_prestados():
 
     for prestamo in prestamos:
         id_libro = prestamo["libro"]
-        # Buscar título a partir del id
         titulo = next((libro["titulo"] for libro in libros if libro["id"] == id_libro), None)
 
         if titulo:
@@ -229,12 +237,12 @@ def libros_mas_prestados():
     # Convertir a lista de tuplas
     lista_conteo = list(conteo.items())
 
-    # Ordenar de mayor a menor con ordenamiento por inserción
     ordenamientoInsercion(lista_conteo)
 
     headers = ["Título del Libro", "Cantidad de Préstamos"]
     print("\n📚 Libros más prestados:\n")
     print(tabulate(lista_conteo, headers=headers))
+    input("\nPresiona Enter para continuar...")
 
 def ordenamientoInsercion(lista):
     for i in range(1, len(lista)):
@@ -250,6 +258,7 @@ def mostrar_historial():
     print("Historial de Actividades:")
     for accion in historial:
         print("- " + accion)
+    input("\nPresiona Enter para continuar...")
 
 tramite = LifoQueue()
 
