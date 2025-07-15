@@ -137,6 +137,7 @@ def prestar_libro(titulo):
                 prestamos.append({"usuario": usuario, "libro": titulo, "fecha_inicio": fecha_hoy_str, "fecha_fin": fecha_dos_semanas_str})
                 historial.append(f"{usuario} presto el libro '{titulo}' el {fecha_hoy_str}. Fecha de devolución: {fecha_dos_semanas_str}")
                 print(historial[-1])
+                input("\nPresiona Enter para continuar...")
                 return
             elif libro["sede"] != sedeActual:
                 print("Este es un préstamo intersedes, la fecha de inicio es el lunes próximo")
@@ -150,10 +151,12 @@ def prestar_libro(titulo):
                 prestamos.append({"usuario": usuario, "libro": titulo, "fecha_inicio": prox_lunes, "fecha_fin": fecha_dos_sem_desde_lunes_str})
                 historial.append(f"{usuario} solicitó préstamo intersedes del libro '{titulo}' el {fecha_hoy_str}. Fecha de devolución: {fecha_dos_sem_desde_lunes_str}")
                 print(historial[-1])
+                input("\nPresiona Enter para continuar...")
                 return
     
     if existe == False:
         print("Ese libro no está disponible")
+        input("\nPresiona Enter para continuar...")
         
 def prestar_libro_outer():
     titulo = input('Título: ')
@@ -186,6 +189,8 @@ def buscar_libro():
         print(tabulate(resultados, headers=["Título", "Autor", "Sede"], tablefmt="fancy_grid"))
     else:
         print("\nNo hay copias disponibles de '" + texto + "'.")
+    
+    input("\nPresiona Enter para continuar...")
 
 def eliminar_libro():
     titulo = input('Título: ')
@@ -198,14 +203,17 @@ def eliminar_libro():
             libros.remove(libro)
             historial.append(f"se archivó el libro '{titulo}'")
             print(historial[-1])
+            input("\nPresiona Enter para continuar...")
             return
         elif libro["titulo"] == titulo and libro["disponible"] == False:
             existe = True
             print("Este libro no se puede archivar porque está en un préstamo activo.")
+            input("\nPresiona Enter para continuar...")
             return
     
     if existe == False:
         print("Este libro no existe.")
+        input("\nPresiona Enter para continuar...")
 
 def devolver_libro():
     titulo = input('Título: ')
@@ -215,6 +223,7 @@ def devolver_libro():
             libro["disponible"] = True
             historial.append(f"{usuario} devolvió el libro '{titulo}'")
             print(historial[-1])
+            input("\nPresiona Enter para continuar...")
             return
 
 def libros_mas_prestados():
