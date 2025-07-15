@@ -1,7 +1,7 @@
 from queue import LifoQueue
-from sympy import true
+# from sympy import true  # Comentado porque no se necesita
 from consolemenu import *
-from consolemenu.items import *
+from consolemenu.items import  FunctionItem 
 from datetime import *
 from tabulate import tabulate
 
@@ -104,6 +104,8 @@ subtitle = "Buscando desde la sede " + sedeActual
 menu = ConsoleMenu("Biblioteca Zeus", subtitle)
 
 def mostrar_catalogo():
+    print("=== FUNCIÓN MOSTRAR CATÁLOGO EJECUTÁNDOSE ===")
+    print("\nCatálogo de libros disponibles en la sede " + sedeActual + ":\n")
     tabla = []
     for libro in libros:
         estado = "Disponible" if libro["disponible"] else "Prestado"
@@ -111,8 +113,14 @@ def mostrar_catalogo():
             fila = [libro["id"], libro["titulo"], libro["autor"], estado]
             tabla.append(fila)
 
-    encabezados = ["ID", "Título", "Autor", "Estado"]
-    print(tabulate(tabla, headers=encabezados))
+    if tabla:
+        encabezados = ["ID", "Título", "Autor", "Estado"]
+        print(tabulate(tabla, headers=encabezados))
+    else:
+        print("No hay libros registrados en la sede " + sedeActual)
+    
+    print("=== FIN DE LA FUNCIÓN ===")
+    input("\nPresiona Enter para continuar...")
 
 def prestar_libro(titulo):
     usuario = input('Usuario: ')
@@ -204,13 +212,10 @@ def devolver_libro():
     usuario = input('Usuario: ')
     for libro in libros:
         if libro["titulo"] == titulo:
-            libro["disponible"] = true
+            libro["disponible"] = True
             historial.append(f"{usuario} devolvió el libro '{titulo}'")
             print(historial[-1])
             return
-
-def intercambio(lista, i, j):
-    lista[i], lista[j] = lista[j], lista[i]
 
 def libros_mas_prestados():
     conteo = {}
@@ -235,6 +240,7 @@ def libros_mas_prestados():
     headers = ["Título del Libro", "Cantidad de Préstamos"]
     print("\n📚 Libros más prestados:\n")
     print(tabulate(lista_conteo, headers=headers))
+    input("\nPresiona Enter para continuar...")
 
 def ordenamientoInsercion(lista):
     for i in range(1, len(lista)):
@@ -250,6 +256,7 @@ def mostrar_historial():
     print("Historial de Actividades:")
     for accion in historial:
         print("- " + accion)
+    input("\nPresiona Enter para continuar...")
 
 tramite = LifoQueue()
 
